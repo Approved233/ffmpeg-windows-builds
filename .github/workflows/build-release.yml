@@ -27,7 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        repository: 'mannyamorim/ffmpeg-windows-build-helpers'
+        repository: 'Approved233/ffmpeg-windows-build-helpers'
 
     - name: Install depedencies
       run: sudo apt-get install -y
@@ -93,16 +93,3 @@ jobs:
       with:
         name: ffmpeg
         path: sandbox/redist/ffmpeg*.7z
-
-    - name: Install SSH key
-      uses: shimataro/ssh-key-action@v2
-      with:
-        key: ${{ secrets.SF_SSH_KEY }}
-        name: id_rsa
-        known_hosts: ${{ secrets.SF_KNOWN_HOSTS }}
-
-    - name: Rsync artifacts to SourceForge
-      shell: bash
-      env:
-        RELEASE_TAG: ${{ github.event.inputs.releaseTag }}
-      run: rsync sandbox/redist/ffmpeg*.7z mannyamorim@frs.sourceforge.net:/home/frs/project/ffmpeg-windows-builds/release/${RELEASE_TAG}/
